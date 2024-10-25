@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <!-- Bootstrap CSS --> 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: url('https://example.com/your-wallpaper.jpg') no-repeat center center fixed; /* Use your image URL */
+            background-size: cover; /* Make background cover the entire body */
+            color: rgb(255, 255, 255);
+            overflow: hidden; /* Prevent scrolling for a cleaner look */
+        }
+
+        .container, .welcome-container {
+            max-width: 90%; /* Adjusted to use more width */
+            margin: 0 auto; /* Centered container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Darker shadow for better visibility */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better text readability */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: rgb(7, 144, 243);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        #test-text {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #333;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: left; /* Align text to the left for readability */
+        }
+
+        #user-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        #user-input:focus {
+            border-color: #ff7e5f;
+        }
+
+        .stats {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #720000;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #fff;
+        }
+
+        /* Styles for the output text with feedback */
+        #typed-output {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff0044;
+            text-align: left;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+        }
+
+        .incorrect {
+            color: red; /* Color for incorrect letters */
+        }
+    </style>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <!-- Welcome Page -->
+    <div class="welcome-container" id="welcome">
+        <h1>Welcome to the Typing Speed Test!</h1>
+        <p>
+            Are you ready to challenge your typing skills? Test your speed and accuracy 
+            with our engaging typing speed test. It's fun, competitive, and a great way 
+            to improve your typing skills!
+        </p>
+        <button onclick="showTypingTest()" class="btn btn-primary">Start Typing Test</button>
+    </div>
+
+    <!-- Typing Speed Test Page -->
+    <div class="container" id="typing-test" style="display: none;">
+        <h1>TYPING SPEED TEST</h1>
+        <div class="test-area">
+            <div id="test-text">
+                Kerala's most audacious make-a-thon! This 18-hour overnight event challenges TinkerHub Campus Chapter students to create brilliantly impractical tech solutions. Participants can build anything using software, hardware, or both - as long as it's purposefully useless! It's a playground for unbridled creativity, skill development, and the chance to win exciting prizes, including a 6-month scholarship. Join 3000+ innovators in turning absurd ideas into reality and showcase your tech skills!
+            </div>
+            <textarea id="user-input" class="form-control" placeholder="Start typing here..." disabled></textarea>
+            <div id="typed-output"></div> <!-- Output area for typed text -->
+        </div>
+        <button id="start-button" class="btn btn-success">Start Test</button>
+        <div class="stats">
+            <p class="timer">Time Left: <span id="timer">60</span> seconds</p>
+            <p>Speed: <span id="wpm">0</span> WPM</p>
+            <p>Accuracy: <span id="accuracy">100</span>%</p>
+        </div>
+        <div class="footer">
+            <p>TYPING SPEED TEST &copy; 2024</p>
+            <p>POWERED BY ANALOKHAM</p>
+                
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Navigation to typing test
+        function showTypingTest() {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('typing-test').style.display = 'block';
+        }
+
+        // Typing Test Logic
+        let currentText = "Kerala's most audacious make-a-thon! This 18-hour overnight event challenges TinkerHub Campus Chapter students to create brilliantly impractical tech solutions. Participants can build anything using software, hardware, or both - as long as it's purposefully useless! It's a playground for unbridled creativity, skill development, and the chance to win exciting prizes, including a 6-month scholarship. Join 3000+ innovators in turning absurd ideas into reality and showcase your tech skills!";
+        let timerInterval;
+        let correctChars = 0;
+        let timeLeft = 60; // Changed to 60 seconds
+
+        // Elements
+        const userInputElement = document.getElementById("user-input");
+        const startButton = document.getElementById("start-button");
+        const wpmElement = document.getElementById("wpm");
+        const accuracyElement = document.getElementById("accuracy");
+        const timerElement = document.getElementById("timer");
+        const typedOutputElement = document.getElementById("typed-output");
+
+        startButton.addEventListener("click", startTest);
+        userInputElement.addEventListener("input", updateStats);
+
+        function startTest() {
+            // Reset values
+            userInputElement.value = "";
+            userInputElement.disabled = false;
+            userInputElement.focus();
+            typedOutputElement.innerHTML = ""; // Clear previous output
+
+            correctChars = 0;
+            timeLeft = 60; // Reset to 60 seconds
+            timerElement.textContent = timeLeft;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(countdown, 1000);
+
+            startButton.disabled = true;
+
+            // Display the paragraph for the user to type
+            document.getElementById("test-text").innerText = currentText;
+        }
+
+        function countdown() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+            } else {
+                endTest();
+            }
+        }
+
+        function updateStats() {
+            const typedText = userInputElement.value;
+            const currentTextArray = currentText.split('');
+            let displayedText = '';
+
+            // Update the output with correct and incorrect letters
+            for (let i = 0; i < typedText.length; i++) {
+                if (i < currentTextArray.length) {
+                    if (typedText[i] === currentTextArray[i]) {
+                        displayedText += typedText[i]; // Correct character
+                    } else {
+                        displayedText += `<span class="incorrect">${typedText[i]}</span>`; // Incorrect character
+                    }
+                } else {
+                    displayedText += typedText[i]; // Handle extra characters
+                }
+            }
+
+            typedOutputElement.innerHTML = displayedText; // Update the displayed output
+
+            const accuracyCount = [...typedText].reduce((acc, char, i) => acc + (char === currentTextArray[i] ? 1 : 0), 0);
+            const elapsedTime = (60 - timeLeft); // Get the remaining time
+            const wpm = Math.round((typedText.length / 5) / (elapsedTime / 60)); // Correct WPM calculation
+            const accuracy = Math.round((accuracyCount / currentText.length) * 100);
+
+            wpmElement.textContent = isNaN(wpm) ? 0 : wpm;
+            accuracyElement.textContent = accuracy;
+        }
+
+        function endTest() {
+            clearInterval(timerInterval);
+            startButton.disabled = false;
+            userInputElement.disabled = true;
+            alert("Test completed! Your results are:\n" +
+                  "Speed: " + wpmElement.textContent + " WPM\n" +
+                  "Accuracy: " + accuracyElement.textContent + "%");
+
+            // Reset speed to zero
+            wpmElement.textContent = 0;
+            typedOutputElement.innerHTML = ""; // Clear the output after the test
+        }
+    </script>
+</body>
+</html>
